@@ -21,7 +21,28 @@ namespace Formula1.Core
         /// </summary>
         public static IEnumerable<Race> LoadRacesFromRacesXml()
         {
-            throw new NotImplementedException();
+            List<Race> races = new List<Race>();
+            string racesPath = MyFile.GetFullNameInApplicationTree("Races.xml");
+            var xElement = XDocument.Load(racesPath).Root;
+            if (xElement != null)
+            {
+                races =
+                    xElement.Elements("Race")
+                        .Select(race =>
+                            new Race
+                            { 
+                                Number = (int)race.Attribute("round"),
+                                Date = (DateTime)race.Element("Date"),
+                                Country = race.Element("Circuit")
+                                                ?.Element("Location")
+                                                ?.Element("Locality")?.Value,
+                                City = race.Element("Circuit")
+                                                ?.Element("Location")
+                                                ?.Element("Locality")?.Value
+                            })
+                        .ToList();
+            }
+            return races;
         }
 
         /// <summary>
@@ -30,7 +51,14 @@ namespace Formula1.Core
         /// </summary>
         public static IEnumerable<Result> LoadResultsFromXmlIntoCollections()
         {
-            throw new NotImplementedException();
+            LoadRacesFromRacesXml();
+            var Drivers = new List<Driver>();
+            var Teams = new List<Team>();
+            var Results = new List<Result>();
+
+
+
+            return Results;
         }
 
 
