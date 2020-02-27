@@ -7,5 +7,10 @@ namespace Formula1.Core.Entities
     public class Team : ICompetitor
     {
         public string Name { get; }
+
+        public Team(string teamName)
+        {
+            Name = teamName;
+        }
     }
 }

@@ -43,7 +43,22 @@ namespace Formula1.CoreTest
             // Lade Verstappens Platzierungen in ein anonymes Objekt { City, Position }
             // Sortiert nach der Rennnummer
 
-            throw new NotImplementedException();
+            var results = ImportController.LoadResultsFromXmlIntoCollections()
+                .Where(result => result.Driver.Name.Equals("Verstappen Max"))
+                .Select(result => new
+                    {
+                        result.Position,
+                        result.Race.City
+                    }
+                ).ToArray();
+
+            Assert.AreEqual(15, results.Count());
+
+            Assert.AreEqual(5, results[0].Position);
+            Assert.AreEqual("Melbourne", results[0].City);
+
+            Assert.AreEqual(1, results[14].Position);
+            Assert.AreEqual("Kuala Lumpur", results[14].City);
         }
     }
 }
